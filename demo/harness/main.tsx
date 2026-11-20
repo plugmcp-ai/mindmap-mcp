@@ -34,18 +34,55 @@ const SCRIPT: Record<string, Array<{ label: string; status?: "todo" | "risk" | "
     { label: "Collect feedback", status: "todo" },
     { label: "Fix top 5 issues", status: "todo" },
   ],
+  "breakdown:f1": [
+    { label: "Profile the slow query", status: "todo" },
+    { label: "Cache the widgets", status: "todo" },
+    { label: "Load charts last", status: "todo" },
+  ],
   "challenge:msg": [
     { label: "Too many messages", status: "risk" },
     { label: "No proof yet", status: "risk" },
   ],
 };
 
+/** What the pretend AI does when asked its own question about a node, or sent a comment on one. */
+const ANSWERS: Record<string, { ops: Op[]; say: string }> = {
+  "ask:pay": {
+    ops: [
+      { op: "update_node", id: "p1", status: "doing", note: "Fix first. Customers are charged twice, so every day it stays open costs money and trust." },
+      { op: "update_node", id: "p2", note: "Second. Annoying, but nobody loses money." },
+    ],
+    say: "Double charge on retry first: it costs customers money. I marked it as doing and added the reason to its note.",
+  },
+  "comment:m3": {
+    ops: [
+      { op: "add_node", id: "later", parent: "root", label: "Later" },
+      { op: "move_node", id: "m3", parent: "later" },
+    ],
+    say: 'Done. I moved "Dark mode gaps" to a new "Later" branch.',
+  },
+};
+
 function scriptedReply(text: string, doc: Doc): { ops: Op[]; say: string } | undefined {
   const nodeId = /\(node ([A-Za-z0-9_-]+)\)/.exec(text)?.[1];
   const node = doc.nodes.find((item) => item.id === nodeId);
   if (!node) return undefined;
-  const action = /add 3 to 5 child/.test(text) ? "expand" : /break this down/.test(text) ? "breakdown" : /concrete tasks/.test(text) ? "tasks" : /weak, risky/.test(text) ? "challenge" : /explain this/.test(text) ? "explain" : "ask";
-  if (action === "explain" || action === "ask") {
+  const action = /^I left /.test(text)
+    ? "comment"
+    : /add 3 to 5 child/.test(text)
+      ? "expand"
+      : /break this down/.test(text)
+        ? "breakdown"
+        : /concrete tasks/.test(text)
+          ? "tasks"
+          : /weak, risky/.test(text)
+            ? "challenge"
+            : /explain this/.test(text)
+              ? "explain"
+              : "ask";
+  const answer = ANSWERS[`${action}:${node.id}`];
+  if (answer) return answer;
+  if (action === "explain" || action === "ask" || action === "comment") {
     return {
       ops: [{ op: "update_node", id: node.id, note: `${node.label}: the short version is that this matters because the rest of the plan depends on it.` }],
       say: `I added a note to "${node.label}".`,
@@ -147,7 +184,8 @@ function Harness() {
 
   // Keep the newest message in sight, as a chat does.
   useEffect(() => {
-    if (view === "chat" && bubbles.length > 2) window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    // Keep the diagram in sight while the talk goes on below it.
+    if (view === "chat" && bubbles.length > 2) document.querySelector(".card")?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, [bubbles.length, view]);
 
   // Hooks for the recording script.

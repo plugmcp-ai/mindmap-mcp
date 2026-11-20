@@ -39,7 +39,7 @@ body{font-family:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-ser
 .bubble{padding:10px 14px;border-radius:14px;max-width:80%;white-space:pre-wrap}
 .bubble-user{align-self:flex-end;background:rgba(0,153,255,.14)}
 .bubble-ai{align-self:flex-start;background:rgba(128,128,128,.14)}
-.card{border:1px solid rgba(128,128,128,.3);border-radius:14px;overflow:hidden}
+.card{border:1px solid rgba(128,128,128,.3);border-radius:14px;overflow:hidden;scroll-margin-top:12px}
 .card-full{position:fixed;inset:0;z-index:10;border-radius:0;border:0}
 .chat-dark .card-full{background:#161616}
 .chat-light .card-full{background:#fff}

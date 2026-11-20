@@ -14,7 +14,7 @@ To look at it yourself, run `node scripts/harness.mjs` and open `demo/out/index.
 | Option | Values |
 |---|---|
 | `view` | `card` (the inline card), `full` (full screen), `chat` (the stand-in chat) |
-| `fixture` | `0` to `4`, a sample diagram from `src/fixtures.ts` |
+| `fixture` | `0` to `5`, a sample diagram from `src/fixtures.ts` |
 | `structure` | any structure id, such as `fishbone` |
 | `theme` | any style id, such as `blueprint` |
 | `mode` | `light` or `dark` |

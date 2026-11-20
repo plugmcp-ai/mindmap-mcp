@@ -2,9 +2,17 @@
 
 **Mind maps and flowcharts in your AI chat.** When an answer would be a long list or a wall of tickets, the AI draws it as a diagram instead. You restyle it, edit it and comment on it, and the AI is told what you did.
 
-![The AI draws a launch plan as a mind map, then the same plan is shown in other structures and styles](docs/demo.gif)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mindmap&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1pbmRtYXAtbWNwIl19)
+[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_Mind_Map_MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=mindmap&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mindmap-mcp%22%5D%7D)
+[![Add to Claude](https://img.shields.io/badge/Claude-How_to_add-D97757?style=for-the-badge&logo=claude&logoColor=white)](#install)
 
-[Watch the full demo (67 seconds)](docs/demo.mp4). The demo runs the real app in a stand-in chat with scripted replies; see [demo/](demo/).
+[![CI](https://github.com/plugmcp-ai/mindmap-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/plugmcp-ai/mindmap-mcp/actions/workflows/ci.yml)
+[![license](https://img.shields.io/badge/license-MIT-0099FF)](LICENSE)
+[![built with PlugMCP](https://img.shields.io/badge/built_with-PlugMCP-0099FF)](https://github.com/plugmcp-ai/plugmcp-framework)
+
+![A list of tickets becomes a mind map. The user clicks a ticket and asks the AI to break it down, and the AI edits the same map.](docs/demo.gif)
+
+[Watch the full demo (94 seconds)](docs/demo.mp4): tickets become a map, you click a node and ask the AI, it edits the same map, then the same content in other structures and styles. The demo runs the real app in a stand-in chat with scripted replies; see [demo/](demo/).
 
 Mind Map MCP is an [MCP App](https://modelcontextprotocol.io): a server that gives an AI client tools, plus a view the client shows inside the conversation. It is built on the [PlugMCP framework](https://github.com/plugmcp-ai/plugmcp-framework), is MIT licensed, and keeps your diagrams on your own computer.
 
@@ -35,7 +43,14 @@ Every structure in every style: [docs/gallery](docs/gallery/README.md).
 
 > **The npm package is being published.** If `npx mindmap-mcp` is not found yet, use [From source](#from-source).
 
-Mind Map runs on your computer with Node 20.19 or newer. Add it to your AI client:
+Mind Map MCP runs on your computer with Node 20.19 or newer.
+
+**One click:**
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mindmap&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1pbmRtYXAtbWNwIl19)
+[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_Mind_Map_MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=mindmap&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mindmap-mcp%22%5D%7D)
+
+**Or add it by hand:**
 
 **Claude Desktop**, in `claude_desktop_config.json`, and **Cursor**, in `.cursor/mcp.json`:
 

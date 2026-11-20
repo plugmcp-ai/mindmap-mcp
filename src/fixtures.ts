@@ -126,4 +126,32 @@ export const history: Doc = {
   ],
 };
 
-export const FIXTURES: Doc[] = [launchPlan, signupFlow, releaseLanes, outage, history];
+/** A backlog of tickets, the kind of long list that is hard to read as text. Used by the demo video. */
+export const backlog: Doc = {
+  title: "Open tickets",
+  structure: "two_sided",
+  nodes: [
+    { id: "root", label: "Open tickets" },
+    { id: "auth", label: "Login and accounts", parent: "root" },
+    { id: "a1", label: "SSO fails on Safari", parent: "auth", status: "blocked" },
+    { id: "a2", label: "Reset email arrives late", parent: "auth", status: "todo" },
+    { id: "a3", label: "2FA codes rejected", parent: "auth", status: "todo" },
+    { id: "pay", label: "Billing", parent: "root" },
+    { id: "p1", label: "Double charge on retry", parent: "pay", status: "todo" },
+    { id: "p2", label: "Invoice PDF is broken", parent: "pay", status: "todo" },
+    { id: "p3", label: "Add an annual plan", parent: "pay", status: "idea" },
+    { id: "perf", label: "Performance", parent: "root" },
+    { id: "f1", label: "Dashboard loads in 9s", parent: "perf", status: "todo" },
+    { id: "f2", label: "Search times out", parent: "perf", status: "todo" },
+    { id: "f3", label: "Image uploads stall", parent: "perf", status: "todo" },
+    { id: "mob", label: "Mobile app", parent: "root" },
+    { id: "m1", label: "Crash on Android 14", parent: "mob", status: "blocked" },
+    { id: "m2", label: "Push not delivered", parent: "mob", status: "todo" },
+    { id: "m3", label: "Dark mode gaps", parent: "mob", status: "idea" },
+    { id: "docs", label: "Docs and support", parent: "root" },
+    { id: "d1", label: "API guide is outdated", parent: "docs", status: "todo" },
+    { id: "d2", label: "No onboarding video", parent: "docs", status: "idea" },
+  ],
+};
+
+export const FIXTURES: Doc[] = [launchPlan, signupFlow, releaseLanes, outage, history, backlog];
