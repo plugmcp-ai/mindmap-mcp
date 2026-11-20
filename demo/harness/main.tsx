@@ -7,6 +7,7 @@ import { FIXTURES, launchPlan } from "../../src/fixtures.js";
 import type { Doc, Op, Structure, Theme } from "../../src/model/schema.js";
 import { createService, type Shown } from "../../src/service.js";
 import { MemoryStore } from "../../src/store/store.js";
+import { LOCALES } from "./locales.js";
 
 /**
  * A stand-in for a chat client, so the app can be looked at, tested and
@@ -20,10 +21,12 @@ import { MemoryStore } from "../../src/store/store.js";
  *   &mode=light|dark   chat color scheme
  *   &view=card|full|chat   just the card, the full-screen view, or the fake chat
  *   &still=1           no animation, for screenshots
+ *   &lang=ar|fr|es     the ticket backlog and the scripted replies in that language
  */
 
 const params = new URLSearchParams(location.search);
 const service = createService(new MemoryStore());
+const locale = LOCALES[params.get("lang") ?? ""];
 
 /** What the pretend AI adds when asked about a node. */
 const SCRIPT: Record<string, Array<{ label: string; status?: "todo" | "risk" | "idea" }>> = {
@@ -80,6 +83,32 @@ function scriptedReply(text: string, doc: Doc): { ops: Op[]; say: string } | und
             : /explain this/.test(text)
               ? "explain"
               : "ask";
+  if (locale) {
+    if (action === "ask" && node.id === "pay") {
+      return {
+        ops: [
+          { op: "update_node", id: "p1", status: "doing", note: locale.ask.first },
+          { op: "update_node", id: "p2", note: locale.ask.second },
+        ],
+        say: locale.ask.say,
+      };
+    }
+    if (action === "comment" && node.id === "m3") {
+      return {
+        ops: [
+          { op: "add_node", id: "later", parent: "root", label: locale.later },
+          { op: "move_node", id: "m3", parent: "later" },
+        ],
+        say: locale.commentSay,
+      };
+    }
+    if (action === "breakdown" && node.id === "f1") {
+      return {
+        ops: locale.breakdown.map((label, index) => ({ op: "add_node" as const, id: `f1_x${index + 1}`, parent: "f1", label, status: "todo" as const })),
+        say: locale.added(node.label, 3),
+      };
+    }
+  }
   const answer = ANSWERS[`${action}:${node.id}`];
   if (answer) return answer;
   if (action === "explain" || action === "ask" || action === "comment") {
@@ -114,7 +143,7 @@ function Harness() {
   loadedRef.current = loaded;
 
   const base = useMemo<Doc>(() => {
-    const doc = FIXTURES[Number(params.get("fixture") ?? 0)] ?? launchPlan;
+    const doc = locale?.doc ?? FIXTURES[Number(params.get("fixture") ?? 0)] ?? launchPlan;
     return {
       ...doc,
       structure: (params.get("structure") as Structure | null) ?? doc.structure,
@@ -195,7 +224,9 @@ function Harness() {
         prompt: (text: string) => setBubbles((list) => [...list, { from: "user", text }]),
         reply: (text: string) => setBubbles((list) => [...list, { from: "ai", text }]),
         card: () => setBubbles((list) => [...list, { from: "card" }]),
-        stream: (index = 0, stepMs = 140) => stream(FIXTURES[index] ?? launchPlan, stepMs),
+        stream: (index = 0, stepMs = 140) => stream(locale?.doc ?? FIXTURES[index] ?? launchPlan, stepMs),
+        // The words the recording script types and shows, in the page's language.
+        strings: locale ? { prompt: locale.prompt, reply: locale.reply, question: locale.question, captions: locale.captions } : null,
         mode: setMode,
       },
     });
@@ -217,7 +248,7 @@ function Harness() {
               {app}
             </div>
           ) : (
-            <div key={index} className={`bubble bubble-${bubble.from}`}>
+            <div key={index} className={`bubble bubble-${bubble.from}`} dir="auto">
               {bubble.text}
             </div>
           ),

@@ -34,7 +34,26 @@ export const roughMeasure: MeasureText = (text, size, weight) => text.length * s
 export function fitLabel(label: string, depth: number, measure: MeasureText, shape: MapNode["kind"] | "branch" = "branch"): Fit {
   const level = LEVELS[Math.min(depth, LEVELS.length - 1)]!;
   const { fontSize, weight, maxWidth, padX, padY } = level;
-  const words = label.split(/\s+/).filter(Boolean);
+  // A word wider than a line is cut into pieces that fit. This is what wraps text in
+  // languages written without spaces, such as Chinese, Japanese and Thai.
+  const words = label
+    .split(/\s+/)
+    .filter(Boolean)
+    .flatMap((word) => {
+      if (measure(word, fontSize, weight) <= maxWidth) return [word];
+      const pieces: string[] = [];
+      let piece = "";
+      for (const letter of Array.from(word)) {
+        if (piece && measure(piece + letter, fontSize, weight) > maxWidth) {
+          pieces.push(piece);
+          piece = letter;
+        } else {
+          piece += letter;
+        }
+      }
+      if (piece) pieces.push(piece);
+      return pieces;
+    });
   const lines: string[] = [];
   let line = "";
   for (const word of words) {

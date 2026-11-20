@@ -51,3 +51,14 @@ describe.each(LAYOUTS.map((layout) => [layout.id, layout] as const))("%s layout"
     });
   }
 });
+
+describe("fitLabel", () => {
+  it("wraps a language written without spaces", () => {
+    const fit = fitLabel("这是一个没有空格的很长的中文标签用来测试自动换行是否正常工作", 2, roughMeasure);
+    expect(fit.lines.length).toBeGreaterThan(1);
+    expect(fit.w).toBeLessThanOrEqual(190 + 20 + 1);
+  });
+  it("keeps short words whole", () => {
+    expect(fitLabel("فشل الدخول الموحد", 2, roughMeasure).lines).toEqual(["فشل الدخول الموحد"]);
+  });
+});

@@ -243,7 +243,7 @@ export function App({ host, loaded, draft, streaming, message }: Props) {
           {node && editable ? (
             <div className="mm-node" data-testid="node-panel">
               <div className="mm-node-head">
-                <strong>{node.label}</strong>
+                <strong dir="auto">{node.label}</strong>
                 {node.status ? <span className="mm-chip">{statusLabel(node.status)}</span> : null}
                 <span className="mm-grow" />
                 <button type="button" className="mm-link" onClick={() => setRenaming(node.id)}>
@@ -273,7 +273,11 @@ export function App({ host, loaded, draft, streaming, message }: Props) {
                   <Icon name="close" size={14} />
                 </button>
               </div>
-              {node.note ? <p className="mm-note">{node.note}</p> : null}
+              {node.note ? (
+                <p className="mm-note" dir="auto">
+                  {node.note}
+                </p>
+              ) : null}
               <div className="mm-actions">
                 {ACTIONS.map((action) => (
                   <button key={action.id} type="button" className="mm-chip mm-chip-btn" data-action={action.id} onClick={() => act(action.id)}>
@@ -289,6 +293,7 @@ export function App({ host, loaded, draft, streaming, message }: Props) {
                 }}
               >
                 <input
+                  dir="auto"
                   value={question}
                   onChange={(event) => setQuestion(event.target.value)}
                   placeholder="Ask about this node, or leave a comment"

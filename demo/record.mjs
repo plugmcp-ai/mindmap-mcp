@@ -6,6 +6,7 @@
 //   node demo/record.mjs --scene styles   a short clip: the same content in other structures and styles
 //   node demo/record.mjs --scene all      all three
 //   node demo/record.mjs --out <folder>   where the short clips go (default demo/out/clips)
+//   node demo/record.mjs --scene edit --lang ar   the short clip in Arabic (also fr, es)
 //   node demo/record.mjs --check          run every step fast, with no video
 //
 // Run `node scripts/harness.mjs` first.
@@ -21,7 +22,21 @@ const flag = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : und
 const check = args.includes("--check");
 const wanted = flag("--scene") ?? (check ? "all" : "hero");
 const clips = resolve(flag("--out") ?? join(root, "demo", "out", "clips"));
+const lang = flag("--lang");
 const size = { width: 1280, height: 800 };
+// The words shown and typed. Another language replaces them from the harness, see demo/harness/locales.ts.
+const ENGLISH = {
+  prompt: "I can't keep 14 tickets in my head. Show them as a mind map:\nSSO fails on Safari\nDouble charge on retry\nDashboard loads in 9s\n... 11 more",
+  reply: "Here are your 14 tickets, grouped by area. Click any of them to dig in.",
+  question: "Which should we fix first?",
+  captions: {
+    intro: "An MCP App where you edit the AI's answer by clicking on it",
+    click: "Click any node and ask the AI about it",
+    edits: "The AI answers by editing the same map",
+    own: "Or ask your own question",
+    end: "Open source: github.com/plugmcp-ai/mindmap-mcp",
+  },
+};
 const BACKLOG = 5; // index of the ticket backlog in FIXTURES, src/fixtures.ts
 
 const browser = await chromium.launch();
@@ -36,7 +51,9 @@ async function record(name, steps) {
   const page = await context.newPage();
   page.on("pageerror", (error) => problems.push(`${name}: ${error}`));
   page.on("console", (message) => message.type() === "error" && problems.push(`${name}: ${message.text()}`));
-  await page.goto(`${pathToFileURL(join(root, "demo", "out", "index.html")).href}?view=chat`);
+  await page.goto(`${pathToFileURL(join(root, "demo", "out", "index.html")).href}?view=chat${lang ? `&lang=${lang}` : ""}`);
+  const strings = (lang && (await page.evaluate(() => window.demo.strings))) || ENGLISH;
+  if (lang && strings === ENGLISH) throw new Error(`No language "${lang}" in demo/harness/locales.ts.`);
 
   // A recording has no mouse pointer and no sound: draw a pointer, and say what is happening in a caption.
   await page.addStyleTag({
@@ -50,6 +67,7 @@ async function record(name, steps) {
     dot.id = "cursor";
     const caption = document.createElement("div");
     caption.id = "caption";
+    caption.dir = "auto";
     document.body.append(dot, caption);
     addEventListener("mousemove", (event) => {
       dot.style.left = `${event.clientX}px`;
@@ -59,6 +77,7 @@ async function record(name, steps) {
 
   const tools = {
     page,
+    s: strings,
     pause: (ms) => page.waitForTimeout(check ? Math.min(ms, 50) : ms),
     expect(ok, what) {
       if (!ok) throw new Error(`${name}: check failed: ${what}`);
@@ -91,16 +110,14 @@ async function record(name, steps) {
     type: (text) => page.keyboard.type(text, { delay: check ? 0 : 85 }),
     /** The user pastes a list of tickets, and the diagram grows as the model writes it. */
     async ask(streamStep = 190) {
-      await page.evaluate(() =>
-        window.demo.prompt("I can't keep 14 tickets in my head. Show them as a mind map:\nSSO fails on Safari\nDouble charge on retry\nDashboard loads in 9s\n... 11 more"),
-      );
+      await page.evaluate((text) => window.demo.prompt(text), strings.prompt);
       await tools.pause(1500);
       await page.evaluate(() => window.demo.card());
       await page.evaluate(([index, step]) => window.demo.stream(index, step), [BACKLOG, check ? 5 : streamStep]);
       await page.waitForSelector("[data-node=d2]");
       await tools.pause(900);
       tools.expect((await tools.nodeCount()) === 20, "the streamed diagram shows all 20 nodes");
-      await page.evaluate(() => window.demo.reply("Here are your 14 tickets, grouped by area. Click any of them to dig in."));
+      await page.evaluate((text) => window.demo.reply(text), strings.reply);
       await tools.pause(1800);
     },
   };
@@ -115,22 +132,23 @@ async function record(name, steps) {
 /** Click a node, ask the AI, watch it change the same diagram. Then rename and comment. */
 async function editing(t, { full }) {
   const { page } = t;
-  await t.caption("Click any node and ask the AI about it");
+  await t.caption(t.s.captions.click);
   await t.click(page.locator("[data-node=f1]"), 1100);
   t.expect(await page.locator("[data-testid=node-panel]").isVisible(), "the node panel opens");
   await t.click(page.locator("[data-action=breakdown]"), 500);
   await page.waitForSelector("[data-node=f1_x3]", { timeout: 10000 });
   t.expect((await t.nodeCount()) === 23, "the AI broke the ticket down into three nodes on the open diagram");
-  await t.caption("The AI answers by editing the same map");
+  await t.caption(t.s.captions.edits);
   await t.pause(2600);
 
-  await t.caption("Or ask your own question");
+  await t.caption(t.s.captions.own);
   await t.click(page.locator("[data-node=pay]"), 900);
   await t.click(page.locator(".mm-ask input"), 300);
-  await t.type("Which should we fix first?");
+  await t.type(t.s.question);
   await t.pause(500);
   await t.click(page.getByRole("button", { name: "Ask", exact: true }), 500);
-  await page.waitForFunction(() => [...document.querySelectorAll(".bubble-ai")].some((bubble) => bubble.textContent.includes("Double charge on retry first")), null, { timeout: 10000 });
+  // Three replies by now: the first answer, the breakdown, and this one.
+  await page.waitForFunction(() => document.querySelectorAll(".bubble-ai").length >= 3, null, { timeout: 10000 });
   t.expect(true, "the AI answered the question and marked a ticket");
   await t.pause(3200);
 
@@ -195,10 +213,10 @@ const SCENES = {
   // Short: ask, click, the AI edits.
   async edit(t) {
     await t.pause(500);
-    await t.caption("An MCP App where you edit the AI's answer by clicking on it");
+    await t.caption(t.s.captions.intro);
     await t.ask(120);
     await editing(t, { full: false });
-    await t.caption("Open source: github.com/plugmcp-ai/mindmap-mcp");
+    await t.caption(t.s.captions.end);
     await t.pause(2800);
   },
   // Short: every structure and style.
@@ -242,14 +260,15 @@ function gif(from, to, { seconds, width = 760, fps = 8, speed = 1.5 }) {
 
 mkdirSync(clips, { recursive: true });
 for (const [name, video] of Object.entries(videos)) {
-  if (name === "hero") {
+  if (name === "hero" && !lang) {
     mp4(video, join(root, "docs", "demo.mp4"));
     // The README picture: the question, the diagram, and the AI editing it.
     gif(video, join(root, "docs", "demo.gif"), { seconds: 46 });
     console.log(`Wrote ${join(root, "docs", "demo.mp4")} and demo.gif`);
   } else {
-    mp4(video, join(clips, `${name}.mp4`));
-    gif(video, join(clips, `${name}.gif`), { seconds: 60, width: 720, speed: 1.6 });
-    console.log(`Wrote ${join(clips, `${name}.mp4`)} and ${name}.gif`);
+    const file = lang ? `${name}-${lang}` : name;
+    mp4(video, join(clips, `${file}.mp4`));
+    gif(video, join(clips, `${file}.gif`), { seconds: 60, width: 720, speed: 1.6 });
+    console.log(`Wrote ${join(clips, `${file}.mp4`)} and ${file}.gif`);
   }
 }

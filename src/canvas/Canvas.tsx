@@ -519,6 +519,7 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(props, ref
           key={renaming}
           data-stop=""
           className="mm-rename"
+          dir="auto"
           autoFocus
           defaultValue={nodeById.get(renaming)?.label ?? ""}
           maxLength={80}
