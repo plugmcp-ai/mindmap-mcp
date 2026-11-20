@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.local
+.plugmcp/calls.json
+.plugmcp/agents.json
+.plugmcp/servers.json
+test-results
+demo/out
+gallery/dist
+*.tmp

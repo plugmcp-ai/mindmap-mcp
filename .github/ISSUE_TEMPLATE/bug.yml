@@ -1,0 +1,34 @@
+name: Bug
+description: Something does not work the way it should.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: AI client and version
+      placeholder: Claude Desktop 1.2.3, Cursor 3.30, VS Code 1.110
+    validations:
+      required: true
+  - type: dropdown
+    id: structure
+    attributes:
+      label: Structure
+      options: [Mind map, Two sided, Logic chart, Org chart, Outline, Timeline, Fishbone, Flowchart, Swimlanes, Not about a structure]
+  - type: textarea
+    id: diagram
+    attributes:
+      label: The diagram
+      description: If you can, use Export, Data and paste the JSON here. Remove anything private first.
+      render: json
+  - type: input
+    id: system
+    attributes:
+      label: Operating system and Node version
+      placeholder: Windows 11, Node 22.21

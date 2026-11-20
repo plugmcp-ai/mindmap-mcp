@@ -1,0 +1,39 @@
+name: New structure
+description: Propose a new structure (a layout).
+labels: [layout]
+body:
+  - type: markdown
+    attributes:
+      value: A structure is one function that places boxes. See "Add a structure" in CONTRIBUTING.md. Open this issue first so we can agree on the idea before you build it.
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: Matrix
+    validations:
+      required: true
+  - type: textarea
+    id: shape
+    attributes:
+      label: How it arranges the nodes
+      description: Where the root goes, where its children go, what the lines look like. A sketch helps.
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: What kind of content it is for
+      description: Give one real example, and say why the structures that exist do not fit it.
+    validations:
+      required: true
+  - type: textarea
+    id: any
+    attributes:
+      label: What it does with content it is not meant for
+      description: A user can switch to any structure at any time, so it must draw any diagram.
+  - type: checkboxes
+    id: build
+    attributes:
+      label: Build
+      options:
+        - label: I would like to build it.

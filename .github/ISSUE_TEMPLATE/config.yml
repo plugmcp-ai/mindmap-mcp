@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security problem
+    url: https://github.com/plugmcp-ai/mindmap/security/advisories/new
+    about: Please report security problems privately, not in a public issue.
+  - name: The PlugMCP framework
+    url: https://github.com/plugmcp-ai/plugmcp-framework
+    about: Problems with the framework itself, such as the Studio or the build, belong there.

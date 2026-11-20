@@ -1,0 +1,68 @@
+{
+  "name": "plugmcp-mindmap",
+  "version": "0.1.0",
+  "description": "Mind maps and flowcharts in your AI chat. An MCP App that turns long answers into diagrams you can restyle, edit and comment on, with every change sent back to the AI.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/plugmcp-ai/mindmap",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plugmcp-ai/mindmap.git"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-apps",
+    "mcp-server",
+    "model-context-protocol",
+    "mindmap",
+    "mind-map",
+    "flowchart",
+    "diagram",
+    "visualization",
+    "claude",
+    "chatgpt",
+    "cursor",
+    "plugmcp"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "bin": {
+    "plugmcp-mindmap": "bin/mindmap.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "plugmcp dev --open",
+    "build": "plugmcp build && node scripts/bundle.mjs",
+    "start": "node bin/mindmap.js --http",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:tools": "node scripts/tools-test.mjs",
+    "test:e2e": "node scripts/harness.mjs && node demo/record.mjs --check",
+    "smoke": "node scripts/smoke.mjs",
+    "gallery": "node scripts/harness.mjs && node scripts/gallery.mjs",
+    "demo": "node scripts/harness.mjs && node demo/record.mjs",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@dagrejs/dagre": "^3.1.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.25.0",
+    "playwright": "^1.50.0",
+    "plugmcp": "file:vendor/plugmcp-0.2.0.tgz",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1",
+    "zod": "^4.6.7"
+  },
+  "packageManager": "pnpm@10.26.2"
+}

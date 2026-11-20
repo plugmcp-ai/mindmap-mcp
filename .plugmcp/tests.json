@@ -1,0 +1,107 @@
+[
+  {
+    "tool": "visualize",
+    "name": "visualize a small mind map",
+    "arguments": {
+      "title": "Weekend trip",
+      "structure": "mindmap",
+      "nodes": [
+        {
+          "id": "trip",
+          "label": "Weekend trip"
+        },
+        {
+          "id": "where",
+          "label": "Where",
+          "parent": "trip"
+        },
+        {
+          "id": "coast",
+          "label": "The coast",
+          "parent": "where"
+        },
+        {
+          "id": "pack",
+          "label": "Packing",
+          "parent": "trip"
+        }
+      ]
+    },
+    "contains": "- [trip] Weekend trip"
+  },
+  {
+    "tool": "visualize",
+    "name": "visualize a flowchart",
+    "arguments": {
+      "title": "Refund",
+      "structure": "flowchart",
+      "nodes": [
+        {
+          "id": "ask",
+          "label": "Customer asks",
+          "kind": "start"
+        },
+        {
+          "id": "ok",
+          "label": "Within 30 days?",
+          "kind": "decision"
+        },
+        {
+          "id": "pay",
+          "label": "Refund",
+          "kind": "end"
+        },
+        {
+          "id": "no",
+          "label": "Explain the policy",
+          "kind": "end"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ask",
+          "to": "ok"
+        },
+        {
+          "from": "ok",
+          "to": "pay",
+          "label": "yes"
+        },
+        {
+          "from": "ok",
+          "to": "no",
+          "label": "no"
+        }
+      ]
+    },
+    "contains": "ok -> pay (yes)"
+  },
+  {
+    "tool": "visualize",
+    "name": "visualize with no nodes fails",
+    "arguments": {},
+    "expectError": true,
+    "contains": "Send the nodes"
+  },
+  {
+    "tool": "edit_diagram",
+    "name": "edit_diagram with an unknown docId fails",
+    "arguments": {
+      "docId": "zzzzzzzz",
+      "ops": [
+        {
+          "op": "remove_node",
+          "id": "a"
+        }
+      ]
+    },
+    "expectError": true,
+    "contains": "No diagram with docId"
+  },
+  {
+    "tool": "get_diagram",
+    "name": "get_diagram reads the latest diagram",
+    "arguments": {},
+    "contains": "docId"
+  }
+]

@@ -1,0 +1,36 @@
+name: New style
+description: Propose a new visual style (a theme).
+labels: [theme]
+body:
+  - type: markdown
+    attributes:
+      value: A style is one file of colors and a few choices. See "Add a style" in CONTRIBUTING.md. Open this issue first so we can agree on the idea before you build it.
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: Chalkboard
+    validations:
+      required: true
+  - type: textarea
+    id: look
+    attributes:
+      label: What it looks like
+      description: Colors, font, line style. A sketch or a link to a reference helps.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What it is for
+      description: When would someone pick this over the styles that exist?
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: Text will have a contrast of at least 4.5 to 1 in light and dark.
+        - label: It loads no font or image from outside.
+        - label: I would like to build it.
