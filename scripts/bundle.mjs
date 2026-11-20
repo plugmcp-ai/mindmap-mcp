@@ -1,4 +1,4 @@
-// Bundles the server and everything it needs into dist/cli.js, so `npx plugmcp-mindmap`
+// Bundles the server and everything it needs into dist/cli.js, so `npx mindmap-mcp`
 // starts at once and installs no other package. Run after `plugmcp build`, which makes
 // dist/views/visualize.html.
 import { existsSync, statSync } from "node:fs";

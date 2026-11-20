@@ -1,13 +1,13 @@
 {
-  "name": "plugmcp-mindmap",
+  "name": "mindmap-mcp",
   "version": "0.1.0",
   "description": "Mind maps and flowcharts in your AI chat. An MCP App that turns long answers into diagrams you can restyle, edit and comment on, with every change sent back to the AI.",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://github.com/plugmcp-ai/mindmap",
+  "homepage": "https://github.com/plugmcp-ai/mindmap-mcp",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/plugmcp-ai/mindmap.git"
+    "url": "git+https://github.com/plugmcp-ai/mindmap-mcp.git"
   },
   "keywords": [
     "mcp",
@@ -28,7 +28,7 @@
     "node": ">=20.19"
   },
   "bin": {
-    "plugmcp-mindmap": "bin/mindmap.js"
+    "mindmap-mcp": "bin/mindmap.js"
   },
   "files": [
     "bin",
@@ -57,7 +57,7 @@
     "@types/react-dom": "^19.3.0",
     "esbuild": "^0.25.0",
     "playwright": "^1.50.0",
-    "plugmcp": "file:vendor/plugmcp-0.2.0.tgz",
+    "plugmcp": "^0.2.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "typescript": "^7.0.2",

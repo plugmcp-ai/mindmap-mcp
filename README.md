@@ -1,4 +1,4 @@
-# Mind Map
+# Mind Map MCP
 
 **Mind maps and flowcharts in your AI chat.** When an answer would be a long list or a wall of tickets, the AI draws it as a diagram instead. You restyle it, edit it and comment on it, and the AI is told what you did.
 
@@ -6,7 +6,7 @@
 
 [Watch the full demo (67 seconds)](docs/demo.mp4). The demo runs the real app in a stand-in chat with scripted replies; see [demo/](demo/).
 
-Mind Map is an [MCP App](https://modelcontextprotocol.io): a server that gives an AI client tools, plus a view the client shows inside the conversation. It is built on the [PlugMCP framework](https://github.com/plugmcp-ai/plugmcp-framework), is MIT licensed, and keeps your diagrams on your own computer.
+Mind Map MCP is an [MCP App](https://modelcontextprotocol.io): a server that gives an AI client tools, plus a view the client shows inside the conversation. It is built on the [PlugMCP framework](https://github.com/plugmcp-ai/plugmcp-framework), is MIT licensed, and keeps your diagrams on your own computer.
 
 ## Why
 
@@ -33,7 +33,7 @@ Every structure in every style: [docs/gallery](docs/gallery/README.md).
 
 ## Install
 
-> **Not on npm yet.** Until the first release, use [From source](#from-source). The commands below are how it will be installed after that.
+> **The npm package is being published.** If `npx mindmap-mcp` is not found yet, use [From source](#from-source).
 
 Mind Map runs on your computer with Node 20.19 or newer. Add it to your AI client:
 
@@ -42,7 +42,7 @@ Mind Map runs on your computer with Node 20.19 or newer. Add it to your AI clien
 ```json
 {
   "mcpServers": {
-    "mindmap": { "command": "npx", "args": ["-y", "plugmcp-mindmap"] }
+    "mindmap": { "command": "npx", "args": ["-y", "mindmap-mcp"] }
   }
 }
 ```
@@ -52,7 +52,7 @@ Mind Map runs on your computer with Node 20.19 or newer. Add it to your AI clien
 ```json
 {
   "servers": {
-    "mindmap": { "command": "npx", "args": ["-y", "plugmcp-mindmap"] }
+    "mindmap": { "command": "npx", "args": ["-y", "mindmap-mcp"] }
   }
 }
 ```
@@ -60,21 +60,21 @@ Mind Map runs on your computer with Node 20.19 or newer. Add it to your AI clien
 **Claude Code**:
 
 ```sh
-claude mcp add mindmap -- npx -y plugmcp-mindmap
+claude mcp add mindmap -- npx -y mindmap-mcp
 ```
 
-On Windows, if the client cannot start `npx`, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "plugmcp-mindmap"]`.
+On Windows, if the client cannot start `npx`, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "mindmap-mcp"]`.
 
 ### From source
 
 ```sh
-git clone https://github.com/plugmcp-ai/mindmap.git
-cd mindmap
+git clone https://github.com/plugmcp-ai/mindmap-mcp.git
+cd mindmap-mcp
 pnpm install
 pnpm build
 ```
 
-Then point your client at the built server: `"command": "node"`, `"args": ["/full/path/to/mindmap/bin/mindmap.js"]`.
+Then point your client at the built server: `"command": "node"`, `"args": ["/full/path/to/mindmap-mcp/bin/mindmap.js"]`.
 
 ### Which clients work
 
@@ -88,7 +88,7 @@ Then point your client at the built server: `"command": "node"`, `"args": ["/ful
 
 This table comes from each client's documentation. What has been tested on a real client so far, and what has not, is in [docs/HOSTS.md](docs/HOSTS.md).
 
-**Hosting it yourself.** `plugmcp-mindmap --http` serves MCP at `http://127.0.0.1:3333/mcp`. To accept other computers, set `MINDMAP_ALLOWED_HOSTS` to the host names you serve and put it behind HTTPS. There is no sign-in: anyone who can reach the address can read and change every diagram, so do not expose it to the internet as it is.
+**Hosting it yourself.** `mindmap-mcp --http` serves MCP at `http://127.0.0.1:3333/mcp`. To accept other computers, set `MINDMAP_ALLOWED_HOSTS` to the host names you serve and put it behind HTTPS. There is no sign-in: anyone who can reach the address can read and change every diagram, so do not expose it to the internet as it is.
 
 ## Where your diagrams live
 

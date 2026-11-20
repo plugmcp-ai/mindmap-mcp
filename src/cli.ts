@@ -5,12 +5,12 @@ import { serveHttp, serveStdio } from "plugmcp";
 import server from "../server.js";
 
 /**
- * What `npx plugmcp-mindmap` runs. It is bundled into dist/cli.js with
+ * What `npx mindmap-mcp` runs. It is bundled into dist/cli.js with
  * everything it needs, so starting it installs nothing else.
  *
- *   plugmcp-mindmap                 talk MCP over stdio, for a chat client that starts it
- *   plugmcp-mindmap --http          serve MCP at http://127.0.0.1:3333/mcp
- *   plugmcp-mindmap --http --port 4000
+ *   mindmap-mcp                 talk MCP over stdio, for a chat client that starts it
+ *   mindmap-mcp --http          serve MCP at http://127.0.0.1:3333/mcp
+ *   mindmap-mcp --http --port 4000
  */
 
 const args = process.argv.slice(2);
@@ -22,11 +22,11 @@ const views = {
 if (args.includes("--help") || args.includes("-h")) {
   console.log(
     [
-      "plugmcp-mindmap: mind maps and flowcharts in your AI chat.",
+      "Mind Map MCP: mind maps and flowcharts in your AI chat.",
       "",
-      "  plugmcp-mindmap                  MCP over stdio (what a chat client starts)",
-      "  plugmcp-mindmap --http           MCP over HTTP at http://127.0.0.1:3333/mcp",
-      "  plugmcp-mindmap --http --port N  the same on another port",
+      "  mindmap-mcp                  MCP over stdio (what a chat client starts)",
+      "  mindmap-mcp --http           MCP over HTTP at http://127.0.0.1:3333/mcp",
+      "  mindmap-mcp --http --port N  the same on another port",
       "",
       "Diagrams are saved as JSON in ~/.plugmcp/mindmap. Set MINDMAP_DIR to keep them somewhere else.",
       "To serve other computers set MINDMAP_ALLOWED_HOSTS to the host names to accept. There is no sign-in.",

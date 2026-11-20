@@ -7,8 +7,8 @@ Thank you for helping. This guide gets you from a clone to a merged change.
 You need Node 20.19 or newer and pnpm 10.
 
 ```sh
-git clone https://github.com/plugmcp-ai/mindmap.git
-cd mindmap
+git clone https://github.com/plugmcp-ai/mindmap-mcp.git
+cd mindmap-mcp
 pnpm install
 pnpm test
 ```

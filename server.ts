@@ -10,10 +10,10 @@ const DocId = z.string().regex(/^[a-z0-9]{6,16}$/).describe("The docId a visuali
 
 const server = createServer({
   name: "mindmap",
-  title: "Mind Map",
+  title: "Mind Map MCP",
   version: "0.1.0",
   description: "Show ideas as mind maps and flowcharts in the chat. The user can restyle, edit and comment, and you are told.",
-  websiteUrl: "https://github.com/plugmcp-ai/mindmap",
+  websiteUrl: "https://github.com/plugmcp-ai/mindmap-mcp",
   instructions: [
     "Mind Map shows ideas to the user as a diagram in the chat. Its tools exist to help the user see what you mean.",
     "When your answer would be a long list, plan, breakdown, process or comparison, call visualize so the user can see it, then add at most two sentences of text. Do not repeat the diagram as text.",
