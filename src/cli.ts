@@ -5,7 +5,7 @@ import { serveHttp, serveStdio } from "plugmcp";
 import server from "../server.js";
 
 /**
- * What `npx mindmap-mcp` runs. It is bundled into dist/cli.js with
+ * What `npx @plugmcp/mindmap-mcp` runs. It is bundled into dist/cli.js with
  * everything it needs, so starting it installs nothing else.
  *
  *   mindmap-mcp                 talk MCP over stdio, for a chat client that starts it

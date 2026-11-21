@@ -2,11 +2,12 @@
 
 **Mind maps and flowcharts in your AI chat.** When an answer would be a long list or a wall of tickets, the AI draws it as a diagram instead. You restyle it, edit it and comment on it, and the AI is told what you did.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mindmap&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1pbmRtYXAtbWNwIl19)
-[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_Mind_Map_MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=mindmap&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mindmap-mcp%22%5D%7D)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mindmap&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBwbHVnbWNwL21pbmRtYXAtbWNwIl19)
+[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_Mind_Map_MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=mindmap&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40plugmcp%2Fmindmap-mcp%22%5D%7D)
 [![Add to Claude](https://img.shields.io/badge/Claude-How_to_add-D97757?style=for-the-badge&logo=claude&logoColor=white)](#install)
 
 [![CI](https://github.com/plugmcp-ai/mindmap-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/plugmcp-ai/mindmap-mcp/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/%40plugmcp%2Fmindmap-mcp?color=0099FF&label=npm)](https://www.npmjs.com/package/@plugmcp/mindmap-mcp)
 [![license](https://img.shields.io/badge/license-MIT-0099FF)](LICENSE)
 [![built with PlugMCP](https://img.shields.io/badge/built_with-PlugMCP-0099FF)](https://github.com/plugmcp-ai/plugmcp-framework)
 
@@ -41,14 +42,12 @@ Every structure in every style: [docs/gallery](docs/gallery/README.md).
 
 ## Install
 
-> **The npm package is being published.** If `npx mindmap-mcp` is not found yet, use [From source](#from-source).
-
 Mind Map MCP runs on your computer with Node 20.19 or newer.
 
 **One click:**
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mindmap&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1pbmRtYXAtbWNwIl19)
-[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_Mind_Map_MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=mindmap&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mindmap-mcp%22%5D%7D)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mindmap&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBwbHVnbWNwL21pbmRtYXAtbWNwIl19)
+[![Add to VS Code](https://img.shields.io/badge/VS_Code-Add_Mind_Map_MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=mindmap&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40plugmcp%2Fmindmap-mcp%22%5D%7D)
 
 **Or add it by hand:**
 
@@ -57,7 +56,7 @@ Mind Map MCP runs on your computer with Node 20.19 or newer.
 ```json
 {
   "mcpServers": {
-    "mindmap": { "command": "npx", "args": ["-y", "mindmap-mcp"] }
+    "mindmap": { "command": "npx", "args": ["-y", "@plugmcp/mindmap-mcp"] }
   }
 }
 ```
@@ -67,7 +66,7 @@ Mind Map MCP runs on your computer with Node 20.19 or newer.
 ```json
 {
   "servers": {
-    "mindmap": { "command": "npx", "args": ["-y", "mindmap-mcp"] }
+    "mindmap": { "command": "npx", "args": ["-y", "@plugmcp/mindmap-mcp"] }
   }
 }
 ```
@@ -75,10 +74,10 @@ Mind Map MCP runs on your computer with Node 20.19 or newer.
 **Claude Code**:
 
 ```sh
-claude mcp add mindmap -- npx -y mindmap-mcp
+claude mcp add mindmap -- npx -y @plugmcp/mindmap-mcp
 ```
 
-On Windows, if the client cannot start `npx`, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "mindmap-mcp"]`.
+On Windows, if the client cannot start `npx`, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "@plugmcp/mindmap-mcp"]`.
 
 ### From source
 
@@ -103,7 +102,7 @@ Then point your client at the built server: `"command": "node"`, `"args": ["/ful
 
 This table comes from each client's documentation. What has been tested on a real client so far, and what has not, is in [docs/HOSTS.md](docs/HOSTS.md).
 
-**Hosting it yourself.** `mindmap-mcp --http` serves MCP at `http://127.0.0.1:3333/mcp`. To accept other computers, set `MINDMAP_ALLOWED_HOSTS` to the host names you serve and put it behind HTTPS. There is no sign-in: anyone who can reach the address can read and change every diagram, so do not expose it to the internet as it is.
+**Hosting it yourself.** `npx @plugmcp/mindmap-mcp --http` serves MCP at `http://127.0.0.1:3333/mcp`. To accept other computers, set `MINDMAP_ALLOWED_HOSTS` to the host names you serve and put it behind HTTPS. There is no sign-in: anyone who can reach the address can read and change every diagram, so do not expose it to the internet as it is.
 
 ## Where your diagrams live
 

@@ -1,8 +1,11 @@
 {
-  "name": "mindmap-mcp",
+  "name": "@plugmcp/mindmap-mcp",
   "version": "0.1.0",
   "description": "Mind maps and flowcharts in your AI chat. An MCP App that turns long answers into diagrams you can restyle, edit and comment on, with every change sent back to the AI.",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "homepage": "https://github.com/plugmcp-ai/mindmap-mcp",
   "repository": {

@@ -10,7 +10,7 @@ Please do not open a public issue for a security problem. Use GitHub's private r
 - **The view loads nothing from outside.** It is one HTML file with its code and styles inline. It asks for no exceptions to the content security policy a chat client applies, so it cannot fetch from or send to any address.
 - **Ids cannot become paths.** A diagram id goes into a file name, so only ids of the form the server makes (6 to 16 lowercase letters and digits) are accepted. Export file names are checked the same way and are written only to the `exports` folder inside the diagrams folder.
 - **Input is checked and bounded.** Tool input is validated against a schema: at most 300 nodes and 400 edges per diagram, and length limits on every text field. Text from the model is drawn as text, never as HTML.
-- **Local by default over HTTP.** `mindmap-mcp --http` listens on `127.0.0.1` and refuses requests whose `Host` or `Origin` is not this machine.
+- **Local by default over HTTP.** `npx @plugmcp/mindmap-mcp --http` listens on `127.0.0.1` and refuses requests whose `Host` or `Origin` is not this machine.
 
 ## When you put the server online
 
